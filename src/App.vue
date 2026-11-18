@@ -258,7 +258,7 @@ async function install() {
             </ul>
           </v-card>
         </div>
-        <footer><span>{{ user ? 'Firebase · ' + sync : '이 브라우저에 저장 중' }}</span><span>토익 800 플래너</span></footer>
+        <footer><span>{{ !authenticated ? '로그인 상태 확인 중' : user ? 'Firebase · ' + sync : '이 브라우저에 저장 중' }}</span><span>토익 800 플래너</span></footer>
       </main>
     </v-main>
 
@@ -300,8 +300,8 @@ async function install() {
 
     <v-dialog v-model="settings" max-width="580" scrollable>
       <v-card class="dialog">
-        <div class="section-heading"><div><h2>Firebase 연결</h2><p>{{ 'toeic-79a8f · ' + (user ? sync : '로그인 필요') }}</p></div><v-btn size="small" variant="text" @click="settings = false">닫기</v-btn></div>
-        <form v-if="!user" @submit.prevent="account('로그인')">
+        <div class="section-heading"><div><h2>Firebase 연결</h2><p>{{ 'toeic-79a8f · ' + (!authenticated ? '로그인 상태 확인 중' : user ? sync : '로그인 필요') }}</p></div><v-btn size="small" variant="text" @click="settings = false">닫기</v-btn></div>
+        <form v-if="authenticated && !user" @submit.prevent="account('로그인')">
           <p class="dialog-copy">같은 Firebase 계정으로 로그인하면 다른 기기에서도 학습 기록을 볼 수 있어요.</p>
           <v-text-field v-model="email" label="이메일" type="email" autocomplete="username" required />
           <v-text-field v-model="password" label="비밀번호" type="password" autocomplete="current-password" required />
@@ -310,7 +310,7 @@ async function install() {
             <v-btn type="submit" color="primary" :disabled="busy || !email || !password">로그인</v-btn>
           </div>
         </form>
-        <template v-else>
+        <template v-else-if="user">
           <p class="dialog-copy">{{ user.email }}</p>
           <v-alert v-if="local.length" variant="tonal" color="primary" :icon="false" class="mb-4">
             이 브라우저에 옮길 수 있는 학습 기록이 {{ local.length }}개 있어요.

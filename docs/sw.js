@@ -1,6 +1,6 @@
-const cacheName = 'toeic-800-shell-2646a524f24ca593';
+const cacheName = 'toeic-800-shell-c64c0a3127bf3a57';
 const scope = self.registration.scope;
-const files = ["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png","assets/index-7mRFZnpx.css","assets/firebase-auth-CnyMYhPt.js","assets/firebase-database-CihXwonV.js","assets/index-Lh6o3Vjz.js"].map((file) => new URL(file, scope).href);
+const files = ["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png","assets/index-7mRFZnpx.css","assets/firebase-auth-CtUjCwYI.js","assets/firebase-database-CJeyFwG8.js","assets/index-C-8LIUJl.js"].map((file) => new URL(file, scope).href);
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(files)).then(() => self.skipWaiting()));
 });

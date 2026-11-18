@@ -1,6 +1,6 @@
 import { computed, ref, shallowRef } from 'vue';
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { browserLocalPersistence, createUserWithEmailAndPassword, indexedDBLocalPersistence, initializeAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getDatabase, onValue, ref as dbRef, update as patchDatabase } from 'firebase/database';
 import { recordId, validRecord } from './catalog.js';
 import { firebaseConfig } from './firebase-config.js';
@@ -45,7 +45,9 @@ export function useStorage() {
     return Object.values(result);
   });
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  const auth = initializeAuth(app, {
+    persistence: [indexedDBLocalPersistence, browserLocalPersistence],
+  });
   const db = getDatabase(app);
   const recordPath = (uid) => dbRef(db, 'users/' + uid + '/studyRecords');
   let stopRecords;
